@@ -16,8 +16,7 @@ public class ServerProxy extends ARSidedProxy {
             if (!Loader.isModLoaded("hodgepodge") && s.isDedicatedServer()
                     && !s.isServerInOnlineMode()
                     && !AmunRa.isDevEnvironment()) {
-                AmunRa.LOGGER.fatal("Server is running in offline mode. This is not supported.");
-                FMLCommonHandler.instance().exitJava(-10, false);
+                AmunRa.LOGGER.warn("Server is running in offline mode. This may cause issues with certain features.");
             }
         } catch (final Exception e) {
             AmunRa.LOGGER.error(

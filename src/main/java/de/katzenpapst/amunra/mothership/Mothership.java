@@ -412,7 +412,18 @@ public class Mothership extends CelestialBody {
         final String ownerUUID = data.getString("owner");
         final String ownerName = data.getString("ownerName");
 
-        final Mothership result = new Mothership(id, UUID.fromString(ownerUUID), ownerName);
+        if (ownerUUID == null || ownerUUID.isEmpty()) {
+            throw new RuntimeException("Mothership: Invalid owner UUID in NBT data");
+        }
+        
+        UUID parsedUUID;
+        try {
+            parsedUUID = UUID.fromString(ownerUUID);
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException("Mothership: Failed to parse owner UUID from string: " + ownerUUID, e);
+        }
+
+        final Mothership result = new Mothership(id, parsedUUID, ownerName);
 
         // these must always be set, a mothership is invalid without
 

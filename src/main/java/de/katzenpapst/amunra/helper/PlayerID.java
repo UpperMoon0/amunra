@@ -22,8 +22,18 @@ public class PlayerID {
 
     public PlayerID(final NBTTagCompound nbt) {
         final String uuid = nbt.getString("uuid");
-        this.userUUID = UUID.fromString(uuid);
+        if (uuid == null || uuid.isEmpty()) {
+            throw new IllegalArgumentException("PlayerID: Invalid UUID string in NBT data");
+        }
+        try {
+            this.userUUID = UUID.fromString(uuid);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("PlayerID: Failed to parse UUID from string: " + uuid, e);
+        }
         this.userName = nbt.getString("name");
+        if (this.userName == null) {
+            this.userName = "";
+        }
     }
 
     public UUID getUUID() {
